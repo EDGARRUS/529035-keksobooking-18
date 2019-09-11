@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Эдуард Шишканов](https://up.htmlacademy.ru/javascript/18/user/529035).
-* Наставник: `Владимир Мединский`(https://htmlacademy.ru/profile/id1113291).
+* Наставник: [Владимир Мединский](https://htmlacademy.ru/profile/id1113291).
 
 ---
 
