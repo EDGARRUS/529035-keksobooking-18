@@ -5,14 +5,14 @@ function arrayRandElement(arr) {
   return arr[rand];
 }
 
-var generateData = function (counter) {
+var generateHouses = function (counter) {
   var type = ['palace', 'flat', 'house', 'bungalo'];
   var title = ['Luxury Apart', 'Good flat', 'My dear home', 'Great place', 'Wonderful house', 'Gold palace', 'Very cool home', 'Cheap flat in center'];
   var description = ['Прекрасное место для отдыха', 'Вы полюбите это место как свой дом', 'Очень дешево и сердито', 'Вы не заходите уезжать из моего дома', 'Приезжай сейчас и я дам скидку 10%!', 'Хочешь красиво жить? Бронируй мое жилье', 'Красивый вид из окон на море', 'Квартира в самом центре города!'];
   var checkin = ['12:00', '13:00', '14:00'];
   var checkout = ['12:00', '13:00', '14:00'];
   var features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-  var objectsData = [];
+  var houseInfo = [];
 
   for (var i = 1; i <= counter; i++) {
 
@@ -20,7 +20,7 @@ var generateData = function (counter) {
     var locationX = Math.floor(Math.random() * 1200) - pinHeight;
     var locationY = Math.floor(Math.random() * 500) + 130 - pinHeight;
 
-    objectsData.push({
+    houseInfo.push({
       'author': {
         'avatar': 'img/avatars/user0' + i + '.png'
       },
@@ -44,10 +44,10 @@ var generateData = function (counter) {
     });
   }
 
-  return objectsData;
+  return houseInfo;
 };
 
-var allObjects = generateData(8);
+var allObjects = generateHouses(8);
 
 var pinsList = document.querySelector('.map');
 pinsList.classList.remove('map--faded');
