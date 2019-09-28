@@ -47,7 +47,7 @@ var generateHouses = function (counter) {
   return houseInfo;
 };
 
-var allhouses = generateHouses(8);
+var allHouses = generateHouses(8);
 
 var pinsList = document.querySelector('.map');
 pinsList.classList.remove('map--faded');
@@ -75,4 +75,4 @@ var addPins = function (pinsArray) {
   pinsList.appendChild(pinFragment);
 };
 
-addPins(allhouses);
+addPins(allHouses);
