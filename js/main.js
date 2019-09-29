@@ -1,5 +1,7 @@
 'use strict';
 
+var PIN_HEIGHT = 65;
+
 function arrayRandElement(arr) {
   var rand = Math.floor(Math.random() * arr.length);
   return arr[rand];
@@ -16,30 +18,29 @@ var generateHouses = function (counter) {
 
   for (var i = 1; i <= counter; i++) {
 
-    var pinHeight = 65;
-    var locationX = Math.floor(Math.random() * 1200) - pinHeight;
-    var locationY = Math.floor(Math.random() * 500) + 130 - pinHeight;
+    var locationX = Math.floor(Math.random() * 1200) - PIN_HEIGHT;
+    var locationY = Math.floor(Math.random() * 500) + 130 - PIN_HEIGHT;
 
     houseInfo.push({
-      'author': {
-        'avatar': 'img/avatars/user0' + i + '.png'
+      author: {
+        avatar: 'img/avatars/user0' + i + '.png'
       },
-      'offer': {
-        'title': arrayRandElement(title),
-        'address': locationX + ', ' + locationY,
-        'price': Math.floor(Math.random() * 10000),
-        'type': arrayRandElement(type),
-        'rooms': Math.floor(Math.random() * 10),
-        'guests': Math.floor(Math.random() * 10),
-        'checkin': arrayRandElement(checkin),
-        'checkout': arrayRandElement(checkout),
-        'features': arrayRandElement(features),
-        'description': arrayRandElement(description),
-        'photos': 'http://o0.github.io/assets/images/tokyo/hotel' + counter + '.jpg'
+      offer: {
+        title: arrayRandElement(title),
+        address: locationX + ', ' + locationY,
+        price: Math.floor(Math.random() * 10000),
+        type: arrayRandElement(type),
+        rooms: Math.floor(Math.random() * 10),
+        guests: Math.floor(Math.random() * 10),
+        checkin: arrayRandElement(checkin),
+        checkout: arrayRandElement(checkout),
+        features: arrayRandElement(features),
+        description: arrayRandElement(description),
+        photos: 'http://o0.github.io/assets/images/tokyo/hotel' + counter + '.jpg'
       },
-      'location': {
-        'x': locationX,
-        'y': locationY
+      location: {
+        x: locationX,
+        y: locationY
       }
     });
   }
