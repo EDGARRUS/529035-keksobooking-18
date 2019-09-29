@@ -17,9 +17,9 @@ var generateHouses = function (counter) {
   var houseInfo = [];
 
   for (var i = 1; i <= counter; i++) {
-
     var locationX = Math.floor(Math.random() * 1200) - PIN_HEIGHT;
     var locationY = Math.floor(Math.random() * 500) + 130 - PIN_HEIGHT;
+
 
     houseInfo.push({
       author: {
@@ -34,9 +34,9 @@ var generateHouses = function (counter) {
         guests: Math.floor(Math.random() * 10),
         checkin: arrayRandElement(checkin),
         checkout: arrayRandElement(checkout),
-        features: arrayRandElement(features),
+        features: [arrayRandElement(features), arrayRandElement(features)],
         description: arrayRandElement(description),
-        photos: 'http://o0.github.io/assets/images/tokyo/hotel' + counter + '.jpg'
+        photos: 'http://o0.github.io/assets/images/tokyo/hotel' + i + '.jpg'
       },
       location: {
         x: locationX,
@@ -77,3 +77,69 @@ var addPins = function (pinsArray) {
 };
 
 addPins(allHouses);
+
+var cardTemplate = document.getElementById('card')
+  .content
+  .querySelector('.map__card');
+
+var renderCard = function (cardInfo) {
+  var cardElement = cardTemplate.cloneNode(true);
+
+  var cardTitle = cardElement.querySelector('.popup__title');
+  cardTitle.textContent = cardInfo.offer.title;
+
+  var cardAddress = cardElement.querySelector('.popup__text--address');
+  cardAddress.textContent = cardInfo.offer.address;
+
+  var cardPrice = cardElement.querySelector('.popup__text--price');
+  cardPrice.textContent = cardInfo.offer.price + '₽/ночь';
+
+  var cardType = cardElement.querySelector('.popup__type');
+  switch (cardInfo.offer.type) {
+    case 'flat':
+      cardType.textContent = 'Квартира';
+      break;
+    case 'bungalo':
+      cardType.textContent = 'Бунгало';
+      break;
+    case 'house':
+      cardType.textContent = 'Дом';
+      break;
+    case 'palace':
+      cardType.textContent = 'Дворец';
+      break;
+  }
+
+  var cardCapacity = cardElement.querySelector('.popup__text--capacity');
+  cardCapacity.textContent = cardInfo.offer.rooms + ' комнаты для ' + cardInfo.offer.guests + ' гостей';
+
+  var cardTime = cardElement.querySelector('.popup__text--time');
+  cardTime.textContent = 'Заезд после ' + cardInfo.offer.checkin + ', выезд до ' + cardInfo.offer.checkout;
+
+  var cardFeatures = cardElement.querySelector('.popup__features');
+  cardFeatures.textContent = cardInfo.offer.features;
+
+  var cardDescription = cardElement.querySelector('.popup__description');
+  cardDescription.textContent = cardInfo.offer.description;
+
+  var cardPhotosList = cardElement.querySelector('.popup__photos');
+  var cardPhoto = cardPhotosList.querySelector('img');
+  cardPhoto.src = cardInfo.offer.photos;
+
+  var cardAvatar = cardElement.querySelector('.popup__avatar');
+  cardAvatar.src = cardInfo.author.avatar;
+
+  return cardElement;
+};
+
+var mapFilters = document.querySelector('.map__filters-container');
+
+var addCard = function (cardArray) {
+  var cardFragment = document.createDocumentFragment();
+  cardFragment.appendChild(renderCard(cardArray));
+  mapFilters.before(cardFragment);
+};
+
+addCard(allHouses[1]);
+
+
