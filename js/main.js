@@ -2,13 +2,17 @@
 
 var PIN_HEIGHT = 65;
 
-function arrayRandElement(arr) {
+var arrayRandElement = function (arr) {
   var rand = Math.floor(Math.random() * arr.length);
   return arr[rand];
-}
+};
 
 var getHousesPhoto = function () {
-  var allHousesPhoto = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
+  var allHousesPhoto = [
+    'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
+    'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
+    'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
+  ];
   var rand = Math.floor(Math.random() * allHousesPhoto.length);
   return allHousesPhoto.slice(rand);
 };
@@ -17,33 +21,66 @@ var getHousesAvatar = function (index) {
   return 'img/avatars/user0' + index + '.png';
 };
 
-var getHousesType = function (housesType) {
-  var type = '';
-  switch (housesType) {
+var getHousesType = function (houseType) {
+  switch (houseType) {
     case 'flat':
-      type = 'Квартира';
-      break;
+      return 'Квартира';
     case 'bungalo':
-      type = 'Бунгало';
-      break;
+      return 'Бунгало';
     case 'house':
-      type = 'Дом';
-      break;
+      return 'Дом';
     case 'palace':
-      type = 'Дворец';
-      break;
+      return 'Дворец';
+    default:
+      return 'Неизвестное жилье';
   }
-
-  return type;
 };
 
 var generateHouses = function (counter) {
-  var type = ['palace', 'flat', 'house', 'bungalo'];
-  var title = ['Luxury Apart', 'Good flat', 'My dear home', 'Great place', 'Wonderful house', 'Gold palace', 'Very cool home', 'Cheap flat in center'];
-  var description = ['Прекрасное место для отдыха', 'Вы полюбите это место как свой дом', 'Очень дешево и сердито', 'Вы не заходите уезжать из моего дома', 'Приезжай сейчас и я дам скидку 10%!', 'Хочешь красиво жить? Бронируй мое жилье', 'Красивый вид из окон на море', 'Квартира в самом центре города!'];
-  var checkin = ['12:00', '13:00', '14:00'];
-  var checkout = ['12:00', '13:00', '14:00'];
-  var features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+  var type = [
+    'palace',
+    'flat',
+    'house',
+    'bungalo'
+  ];
+  var title = [
+    'Luxury Apart',
+    'Good flat',
+    'My dear home',
+    'Great place',
+    'Wonderful house',
+    'Gold palace',
+    'Very cool home',
+    'Cheap flat in center'
+  ];
+  var description = [
+    'Прекрасное место для отдыха',
+    'Вы полюбите это место как свой дом',
+    'Очень дешево и сердито',
+    'Вы не заходите уезжать из моего дома',
+    'Приезжай сейчас и я дам скидку 10%!',
+    'Хочешь красиво жить? Бронируй мое жилье',
+    'Красивый вид из окон на море',
+    'Квартира в самом центре города!'
+  ];
+  var checkin = [
+    '12:00',
+    '13:00',
+    '14:00'
+  ];
+  var checkout = [
+    '12:00',
+    '13:00',
+    '14:00'
+  ];
+  var features = [
+    'wifi',
+    'dishwasher',
+    'parking',
+    'washer',
+    'elevator',
+    'conditioner'
+  ];
   var houseInfo = [];
 
   for (var i = 1; i <= counter; i++) {
@@ -53,7 +90,7 @@ var generateHouses = function (counter) {
 
     houseInfo.push({
       author: {
-        avatar: getHousesAvatar(i)
+        avatar: getHousesAvatar(i),
       },
       offer: {
         title: arrayRandElement(title),
@@ -70,8 +107,8 @@ var generateHouses = function (counter) {
       },
       location: {
         x: locationX,
-        y: locationY
-      }
+        y: locationY,
+      },
     });
   }
 
@@ -88,9 +125,9 @@ var pinsList = getPinList();
 pinsList.classList.remove('map--faded');
 
 var getPinTemplate = function () {
-  return document.getElementById('card')
+  return document.getElementById('pin')
     .content
-    .querySelector('.map__card');
+    .querySelector('.map__pin');
 };
 
 var pinTemplate = getPinTemplate();
@@ -154,8 +191,8 @@ var renderCard = function (cardInfo) {
   var cardPhotosList = cardElement.querySelector('.popup__photos');
   var cardPhoto = cardPhotosList.querySelector('img');
   cardPhoto.src = cardInfo.offer.photos[0];
-  if(cardInfo.offer.photos.length > 1) {
-    for(var i = 1; i < cardInfo.offer.photos.length; i++) {
+  if (cardInfo.offer.photos.length > 1) {
+    for (var i = 1; i < cardInfo.offer.photos.length; i++) {
       var PhotosElement = cardPhoto.cloneNode(true);
       PhotosElement.src = cardInfo.offer.photos[i];
       cardPhotosList.append(PhotosElement);
@@ -174,12 +211,12 @@ var getMapFilters = function () {
 
 var mapFilters = getMapFilters();
 
-var addCard = function (cardArray) {
+var addCard = function (card) {
   var cardFragment = document.createDocumentFragment();
-  cardFragment.appendChild(renderCard(cardArray));
+  cardFragment.appendChild(renderCard(card));
   mapFilters.before(cardFragment);
 };
 
-addCard(allHouses[1]);
+addCard(allHouses[0]);
 
 
