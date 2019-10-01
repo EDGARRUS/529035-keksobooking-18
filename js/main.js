@@ -1,6 +1,9 @@
 'use strict';
 
 var PIN_HEIGHT = 65;
+var PIN_MARKER_HEIGHT = 22;
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
 
 var arrayRandElement = function (arr) {
   var rand = Math.floor(Math.random() * arr.length);
@@ -122,7 +125,6 @@ var getPinList = function () {
 };
 
 var pinsList = getPinList();
-pinsList.classList.remove('map--faded');
 
 var getPinTemplate = function () {
   return document.getElementById('pin')
@@ -151,7 +153,7 @@ var addPins = function (pinsArray) {
   pinsList.appendChild(pinFragment);
 };
 
-addPins(allHouses);
+
 
 var getCardTemplate = function () {
   return document.getElementById('card')
@@ -217,6 +219,72 @@ var addCard = function (card) {
   mapFilters.before(cardFragment);
 };
 
-addCard(allHouses[0]);
+// Делаю следующее задание
+
+var getAddForm = function () {
+  return document.querySelector('.ad-form');
+};
+
+var getMapFiltersForm = function () {
+  return document.querySelector('.map__filters')
+};
+
+var getAllFieldsets = function () {
+  return document.querySelectorAll('fieldset')
+};
+
+var addForm = getAddForm();
+var mapFilterForm = getMapFiltersForm();
+var allFieldsets = getAllFieldsets();
+
+var disableAllFieldsets = function () {
+  for (var i = 0; i < allFieldsets.length; i++) {
+    allFieldsets[i].disabled = true;
+  };
+};
+
+disableAllFieldsets();
+
+
+var getMainPin = function () {
+  return document.querySelector(' .map__pin--main')
+};
+
+var onMainPinMouseDown = function () {
+  for (var i = 0; i < allFieldsets.length; i++) {
+    allFieldsets[i].disabled = false;
+  }
+
+  pinsList.classList.remove('map--faded');
+  mapFilterForm.classList.remove('ad-form--disabled');
+  addForm.classList.remove('ad-form--disabled');
+
+  inputAddress.value = Math.floor(parseInt(mainPin.style.left.slice(0, -2)) + PIN_HEIGHT/2) + ', ' + Math.floor(parseInt(mainPin.style.top.slice(0, -2)) + PIN_HEIGHT/2 + PIN_MARKER_HEIGHT);
+};
+
+var onMainPinKeyDown = function () {
+  for (var i = 0; i < allFieldsets.length; i++) {
+    allFieldsets[i].disabled = false;
+  }
+  pinsList.classList.remove('map--faded');
+  mapFilterForm.classList.remove('ad-form--disabled');
+  addForm.classList.remove('ad-form--disabled');
+};
+
+var mainPin = getMainPin();
+
+mainPin.addEventListener('mousedown', onMainPinMouseDown);
+mainPin.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    onMainPinKeyDown()
+  }
+});
+
+var getInputAddress = function () {
+  return document.getElementById('address');
+};
+
+var inputAddress = getInputAddress();
+inputAddress.value = Math.floor(parseInt(mainPin.style.left.slice(0, -2)) + PIN_HEIGHT/2) + ', ' + Math.floor(parseInt(mainPin.style.top.slice(0, -2)) + PIN_HEIGHT/2);
 
 
