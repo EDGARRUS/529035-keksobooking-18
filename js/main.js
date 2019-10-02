@@ -314,6 +314,8 @@ var validateCapacity = function () {
   } else {
     inputCapacity.setCustomValidity('');
   }
+
+  document.querySelector(".ad-form__submit").click()
 };
 
 inputCapacity.addEventListener('change', validateCapacity);
