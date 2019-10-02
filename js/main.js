@@ -233,18 +233,11 @@ var getAllFieldsets = function () {
   return document.querySelectorAll('fieldset')
 };
 
-var addForm = getAddForm();
-var mapFilterForm = getMapFiltersForm();
-var allFieldsets = getAllFieldsets();
-
 var disableAllFieldsets = function () {
   for (var i = 0; i < allFieldsets.length; i++) {
     allFieldsets[i].disabled = true;
-  };
+  }
 };
-
-disableAllFieldsets();
-
 
 var getMainPin = function () {
   return document.querySelector(' .map__pin--main')
@@ -256,7 +249,7 @@ var onMainPinMouseDown = function () {
   }
 
   pinsList.classList.remove('map--faded');
-  mapFilterForm.classList.remove('ad-form--disabled');
+  mapFiltersForm.classList.remove('ad-form--disabled');
   addForm.classList.remove('ad-form--disabled');
 
   inputAddress.value = Math.floor(parseInt(mainPin.style.left.slice(0, -2)) + PIN_HEIGHT/2) + ', ' + Math.floor(parseInt(mainPin.style.top.slice(0, -2)) + PIN_HEIGHT/2 + PIN_MARKER_HEIGHT);
@@ -267,12 +260,21 @@ var onMainPinKeyDown = function () {
     allFieldsets[i].disabled = false;
   }
   pinsList.classList.remove('map--faded');
-  mapFilterForm.classList.remove('ad-form--disabled');
+  mapFiltersForm.classList.remove('ad-form--disabled');
   addForm.classList.remove('ad-form--disabled');
 };
 
-var mainPin = getMainPin();
+var getInputAddress = function () {
+  return document.getElementById('address');
+};
 
+disableAllFieldsets();
+
+var addForm = getAddForm();
+var mapFiltersForm = getMapFiltersForm();
+var allFieldsets = getAllFieldsets();
+
+var mainPin = getMainPin();
 mainPin.addEventListener('mousedown', onMainPinMouseDown);
 mainPin.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_KEYCODE) {
@@ -280,11 +282,35 @@ mainPin.addEventListener('keydown', function (evt) {
   }
 });
 
-var getInputAddress = function () {
-  return document.getElementById('address');
-};
-
 var inputAddress = getInputAddress();
 inputAddress.value = Math.floor(parseInt(mainPin.style.left.slice(0, -2)) + PIN_HEIGHT/2) + ', ' + Math.floor(parseInt(mainPin.style.top.slice(0, -2)) + PIN_HEIGHT/2);
+
+var inputRoomNumber = document.getElementById('room_number');
+var inputCapacity = document.getElementById('capacity');
+
+var validateCapacity = function () {
+  var inputCapacityValue = parseInt(inputCapacity.value);
+  var inputRoomNumberValue = parseInt(inputRoomNumber.value);
+  if (inputRoomNumberValue === 1 && inputCapacityValue !== 1) {
+    inputCapacity.setCustomValidity('Здесь может проживать только 1 гость')
+  } else if (inputRoomNumberValue === 2 && (inputCapacityValue > 2 || inputCapacityValue === 0)) {
+    inputCapacity.setCustomValidity('Здесь могут проживать до 2 гостей')
+  } else if (inputRoomNumberValue === 3 && inputCapacityValue === 0) {
+    inputCapacity.setCustomValidity('Здесь могут проживать от 1 до 3 гостей')
+  } else if (inputRoomNumberValue === 100 && inputCapacityValue !== 0) {
+    inputCapacity.setCustomValidity('Здесь не могут проживать гости')
+  } else {
+    inputCapacity.setCustomValidity('')
+  }
+};
+
+inputCapacity.addEventListener('change', validateCapacity);
+addForm.addEventListener('submit', function (evt) {
+  validateCapacity();
+  if(!inputCapacity.checkValidity()) {
+    evt.preventDefault();
+  }
+});
+
 
 
