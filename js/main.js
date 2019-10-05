@@ -128,7 +128,9 @@ var validateCapacity = function () {
 
   inputCapacity.setCustomValidity(getCustomValidityMessage(inputRoomNumberValue, inputCapacityValue));
 
-  document.querySelector('.ad-form__submit').click();
+  if (!inputCapacity.validity.valid) {
+    document.querySelector('.ad-form__submit').click();
+  }
 };
 
 inputCapacity.addEventListener('change', validateCapacity);
