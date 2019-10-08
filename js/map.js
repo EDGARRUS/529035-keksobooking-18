@@ -52,6 +52,7 @@
 
     var allHouses = window.bookingApp.data.generateHouses(8);
     window.bookingApp.pin.addPins(allHouses);
+    document.removeEventListener('mousedown', onMainPinMouseDownAtStart);
   };
 
   var onMainPinKeyDownAtStart = function (evt) {
@@ -72,4 +73,16 @@
 
   mainPin.addEventListener('mousedown', onMainPinMouseDownAtStart);
   mainPin.addEventListener('keydown', onMainPinKeyDownAtStart);
+  mainPin.addEventListener('mousedown', function (evt) {
+    mainPin.removeEventListener('mousedown', onMainPinMouseDownAtStart);
+    mainPin.removeEventListener('keydown', onMainPinKeyDownAtStart);
+    window.bookingApp.util.mouseDraggingElement(evt, mainPin, mainPin);
+    mainPin.addEventListener('mousemove', function () {
+      inputAddress.value = getEndCoordinatePin();
+    });
+    mainPin.addEventListener('mousedown', function () {
+      inputAddress.value = getEndCoordinatePin();
+    });
+
+  });
 })();
