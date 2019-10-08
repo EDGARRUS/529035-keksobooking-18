@@ -3,6 +3,8 @@
 
 (function () {
 
+  var util = window.bookingApp.util;
+
   var getAddForm = function () {
     return document.querySelector('.ad-form');
   };
@@ -101,21 +103,21 @@
 
   var changeMinPrice = function () {
     switch (typeHome.value) {
-      case 'bungalo':
-        price.setAttribute('min', '0');
-        price.setAttribute('placeholder', '0');
+      case util.bungalo.name:
+        price.setAttribute('min', util.bungalo.minPrice);
+        price.setAttribute('placeholder', util.bungalo.placeholderPrice);
         break;
-      case 'flat':
-        price.setAttribute('min', '1000');
-        price.setAttribute('placeholder', '1000');
+      case util.flat.name:
+        price.setAttribute('min', util.flat.minPrice);
+        price.setAttribute('placeholder', util.flat.placeholderPrice);
         break;
-      case 'house':
-        price.setAttribute('min', '5000');
-        price.setAttribute('placeholder', '5000');
+      case util.house.name:
+        price.setAttribute('min', util.house.minPrice);
+        price.setAttribute('placeholder', util.house.placeholderPrice);
         break;
-      case 'palace':
-        price.setAttribute('min', '10000');
-        price.setAttribute('placeholder', '10000');
+      case util.palace.name:
+        price.setAttribute('min', util.palace.minPrice);
+        price.setAttribute('placeholder', util.palace.placeholderPrice);
         break;
       default:
         typeHome.setCustomValidity('Укажите корректный тип жилья');
@@ -123,13 +125,13 @@
   };
 
   var validatePrice = function () {
-    if (typeHome.value === 'bungalo' && price.value < 0) {
+    if (typeHome.value === util.bungalo.name && price.value < util.bungalo.minPrice) {
       price.setCustomValidity('Укажите положительную цену');
-    } else if (typeHome.value === 'flat' && price.value <= 1000) {
+    } else if (typeHome.value === util.flat.name && price.value <= util.flat.minPrice) {
       price.setCustomValidity('Укажите цену не менее 1000 рублей');
-    } else if (typeHome.value === 'house' && price.value <= 5000) {
+    } else if (typeHome.value === util.house.name && price.value <= util.house.minPrice) {
       price.setCustomValidity('Укажите цену не менее 5000 рублей');
-    } else if (typeHome.value === 'palace' && price.value <= 10000) {
+    } else if (typeHome.value === util.palace.name && price.value <= util.palace.minPrice) {
       price.setCustomValidity('Укажите цену не менее 10000 рублей');
     } else {
       price.setCustomValidity('');
@@ -137,7 +139,7 @@
   };
 
   var validateTypeHome = function () {
-    if (typeHome.value !== 'bungalo' && typeHome.value !== 'flat' && typeHome.value !== 'house' && typeHome.value !== 'palace') {
+    if (typeHome.value !== util.bungalo.name && typeHome.value !== util.flat.name && typeHome.value !== util.house.name && typeHome.value !== util.palace.name) {
       typeHome.setCustomValidity('Укажите корректный тип дома');
     } else {
       changeMinPrice();

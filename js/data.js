@@ -2,6 +2,8 @@
 
 (function () {
 
+  var util = window.bookingApp.util;
+
   var getHousesPhoto = function () {
     var allHousesPhoto = [
       'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
@@ -81,8 +83,8 @@
       var houseInfo = [];
 
       for (var i = 1; i <= counter; i++) {
-        var locationX = Math.floor(Math.random() * 1200) - window.bookingApp.util.PIN_HEIGHT;
-        var locationY = Math.floor(Math.random() * 500) + 130 - window.bookingApp.util.PIN_HEIGHT;
+        var locationX = Math.floor(Math.random() * 1200) - util.PIN_HEIGHT;
+        var locationY = Math.floor(Math.random() * 500) + 130 - util.PIN_HEIGHT;
 
 
         houseInfo.push({
@@ -90,16 +92,16 @@
             avatar: getHousesAvatar(i),
           },
           offer: {
-            title: window.bookingApp.util.arrayRandElement(title),
+            title: util.arrayRandElement(title),
             address: locationX + ', ' + locationY,
             price: Math.floor(Math.random() * 10000),
-            type: window.bookingApp.util.arrayRandElement(type),
+            type: util.arrayRandElement(type),
             rooms: Math.floor(Math.random() * 10),
             guests: Math.floor(Math.random() * 10),
-            checkin: window.bookingApp.util.arrayRandElement(checkin),
-            checkout: window.bookingApp.util.arrayRandElement(checkout),
-            features: [window.bookingApp.util.arrayRandElement(features), window.bookingApp.util.arrayRandElement(features)],
-            description: window.bookingApp.util.arrayRandElement(description),
+            checkin: util.arrayRandElement(checkin),
+            checkout: util.arrayRandElement(checkout),
+            features: [util.arrayRandElement(features), util.arrayRandElement(features)],
+            description: util.arrayRandElement(description),
             photos: getHousesPhoto(),
           },
           location: {
