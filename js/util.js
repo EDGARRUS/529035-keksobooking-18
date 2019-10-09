@@ -6,7 +6,7 @@ window.bookingApp = {};
 
   var ENTER_KEYCODE = 13;
   var ESC_KEYCODE = 27;
-  var PIN_HEIGHT = 65;
+  var PIN_HEIGHT = 74;
   var PIN_MARKER_HEIGHT = 22;
 
   window.bookingApp.util = {
@@ -53,6 +53,62 @@ window.bookingApp = {};
       name: 'palace',
       minPrice: 10000,
       placeholderPrice: '10000',
+    },
+
+    mouseDraggingElement: function (evt, handler, element) {
+
+      var mapCity = document.querySelector('.map__pins');
+      var mapCityWidth = mapCity.getBoundingClientRect().width;
+      var mapCityHeight = mapCity.getBoundingClientRect().height;
+
+      evt.preventDefault();
+
+      var startCoords = {
+        x: evt.clientX,
+        y: evt.clientY,
+      };
+
+      var onMouseMove = function (moveEvt) {
+        moveEvt.preventDefault();
+
+        var shift = {
+          x: startCoords.x - moveEvt.clientX,
+          y: startCoords.y - moveEvt.clientY,
+        };
+
+        startCoords = {
+          x: moveEvt.clientX,
+          y: moveEvt.clientY,
+        };
+
+        var elementStyleTop = element.offsetTop - shift.y;
+        if (elementStyleTop <= 0) {
+          elementStyleTop = 0;
+        } else if (elementStyleTop >= (mapCityHeight - PIN_HEIGHT)) {
+          elementStyleTop = mapCityHeight - PIN_HEIGHT;
+        }
+
+        var elementStyleLeft = element.offsetLeft - shift.x;
+        if (elementStyleLeft <= 0) {
+          elementStyleLeft = 0;
+        } else if (elementStyleLeft >= (mapCityWidth - PIN_HEIGHT)) {
+          elementStyleLeft = mapCityWidth - PIN_HEIGHT;
+        }
+
+        element.style.top = (elementStyleTop) + 'px';
+        element.style.left = (elementStyleLeft) + 'px';
+      };
+
+      var onMouseUp = function (upEvt) {
+        upEvt.preventDefault();
+
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+
+      };
+
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
     },
   };
 
