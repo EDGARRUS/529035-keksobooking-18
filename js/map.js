@@ -50,8 +50,9 @@
 
     inputAddress.value = getEndCoordinatePin();
 
-    var allHouses = window.bookingApp.data.generateHouses(8);
-    window.bookingApp.pin.addPins(allHouses);
+
+    window.bookingApp.backend.load(window.bookingApp.pin.addPins, window.bookingApp.util.errorHandler);
+
     document.removeEventListener('mousedown', onMainPinMouseDownAtStart);
   };
 
