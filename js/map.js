@@ -37,6 +37,9 @@
     return document.getElementById('address');
   };
 
+  var mainPinXOnStart = mainPin.style.left;
+  var mainPinYOnStart = mainPin.style.top;
+
   window.bookingApp.form.allFieldsets = disableAllFieldsets(window.bookingApp.form.allFieldsets, true);
 
   var inputAddress = getInputAddress();
@@ -59,40 +62,38 @@
     allPins.forEach(function (pin) {
       if (!pin.classList.contains('map__pin--main')) {
         pin.remove();
+      } else {
+        mainPin.style.left = mainPinXOnStart;
+        mainPin.style.top = mainPinYOnStart;
       }
     });
 
     var activeCard = document.querySelector('.map__card');
-    activeCard.remove();
+    if (activeCard) {
+      activeCard.remove();
+    }
     inputAddress.value = getCenterPinAtStart();
   };
 
-  var onMainPinMouseDownAtStart = function () {
+  var removeInactiveState = function () {
     window.bookingApp.pin.pinsList.classList.remove('map--faded');
     window.bookingApp.form.mapFiltersForm.classList.remove('ad-form--disabled');
     window.bookingApp.form.addForm.classList.remove('ad-form--disabled');
     disableAllFieldsets(window.bookingApp.form.allFieldsets, false);
-
     inputAddress.value = getEndCoordinatePin();
-
     window.bookingApp.backend.load(window.bookingApp.pin.addPins, window.bookingApp.util.errorHandler);
+  };
 
+  var onMainPinMouseDownAtStart = function () {
+    removeInactiveState();
     document.removeEventListener('mousedown', onMainPinMouseDownAtStart);
 
   };
 
   var onMainPinKeyDownAtStart = function (evt) {
-
     if (evt.keyCode === window.bookingApp.util.ENTER_KEYCODE) {
-
-      window.bookingApp.pin.pinsList.classList.remove('map--faded');
-      window.bookingApp.form.mapFiltersForm.classList.remove('ad-form--disabled');
-      window.bookingApp.form.addForm.classList.remove('ad-form--disabled');
-      disableAllFieldsets(window.bookingApp.form.allFieldsets, false);
-
-      inputAddress.value = getEndCoordinatePin();
-
-      window.bookingApp.backend.load(window.bookingApp.pin.addPins, window.bookingApp.util.errorHandler);
+      removeInactiveState();
+      document.removeEventListener('keydown', onMainPinKeyDownAtStart);
 
     }
   };
