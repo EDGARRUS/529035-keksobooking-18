@@ -40,7 +40,32 @@
   window.bookingApp.form.allFieldsets = disableAllFieldsets(window.bookingApp.form.allFieldsets, true);
 
   var inputAddress = getInputAddress();
-  inputAddress.value = getCenterPinAtStart();
+
+  var draggingMainPin = function (evt) {
+    window.bookingApp.util.inactiveState = false;
+    window.bookingApp.util.mouseDraggingElement(evt, mainPin, mainPin);
+    mainPin.addEventListener('mousemove', function () {
+      inputAddress.value = getEndCoordinatePin();
+    });
+    mainPin.addEventListener('mousedown', function () {
+      inputAddress.value = getEndCoordinatePin();
+    });
+  };
+
+  var mainPinReturnToInactiveState = function () {
+    mainPin.addEventListener('mousedown', onMainPinMouseDownAtStart);
+    mainPin.addEventListener('keydown', onMainPinKeyDownAtStart);
+    var allPins = document.querySelectorAll('.map__pin');
+    allPins.forEach(function (pin) {
+      if (!pin.classList.contains('map__pin--main')) {
+        pin.remove();
+      }
+    });
+
+    var activeCard = document.querySelector('.map__card');
+    activeCard.remove();
+    inputAddress.value = getCenterPinAtStart();
+  };
 
   var onMainPinMouseDownAtStart = function () {
     window.bookingApp.pin.pinsList.classList.remove('map--faded');
@@ -50,10 +75,10 @@
 
     inputAddress.value = getEndCoordinatePin();
 
-
     window.bookingApp.backend.load(window.bookingApp.pin.addPins, window.bookingApp.util.errorHandler);
 
     document.removeEventListener('mousedown', onMainPinMouseDownAtStart);
+
   };
 
   var onMainPinKeyDownAtStart = function (evt) {
@@ -67,23 +92,27 @@
 
       inputAddress.value = getEndCoordinatePin();
 
-      var allHouses = window.bookingApp.data.generateHouses(8);
-      window.bookingApp.pin.addPins(allHouses);
+      window.bookingApp.backend.load(window.bookingApp.pin.addPins, window.bookingApp.util.errorHandler);
+
     }
   };
 
   mainPin.addEventListener('mousedown', onMainPinMouseDownAtStart);
   mainPin.addEventListener('keydown', onMainPinKeyDownAtStart);
-  mainPin.addEventListener('mousedown', function (evt) {
-    mainPin.removeEventListener('mousedown', onMainPinMouseDownAtStart);
-    mainPin.removeEventListener('keydown', onMainPinKeyDownAtStart);
-    window.bookingApp.util.mouseDraggingElement(evt, mainPin, mainPin);
-    mainPin.addEventListener('mousemove', function () {
-      inputAddress.value = getEndCoordinatePin();
-    });
-    mainPin.addEventListener('mousedown', function () {
-      inputAddress.value = getEndCoordinatePin();
-    });
+  mainPin.addEventListener('mousedown', draggingMainPin);
+  inputAddress.value = getCenterPinAtStart();
 
-  });
+  window.bookingApp.map = {
+    returnToInactiveStateOnPage: function () {
+      window.bookingApp.pin.pinsList.classList.add('map--faded');
+      window.bookingApp.form.mapFiltersForm.classList.add('ad-form--disabled');
+      window.bookingApp.form.addForm.classList.add('ad-form--disabled');
+      disableAllFieldsets(window.bookingApp.form.allFieldsets, true);
+
+      mainPinReturnToInactiveState();
+
+      window.bookingApp.util.inactiveState = true;
+    },
+  };
+
 })();
