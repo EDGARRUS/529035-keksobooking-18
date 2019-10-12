@@ -150,6 +150,59 @@
   typeHome.addEventListener('change', validateTypeHome);
   price.addEventListener('input', validatePrice);
 
+  var mainContainer = document.querySelector('main');
+
+  var getSuccessTemplate = function () {
+    return document.getElementById('success').content.querySelector('.success');
+  };
+
+  var successTemplate = getSuccessTemplate();
+
+  var successHandler = function () {
+
+    var successPopup = successTemplate.cloneNode(true);
+    mainContainer.append(successPopup);
+
+    addForm.reset();
+    window.bookingApp.map.returnToInactiveStateOnPage();
+
+    document.addEventListener('keydown', function (evt) {
+      util.isEscEvent(evt, function () {
+        successPopup.remove();
+      });
+    });
+
+    document.addEventListener('click', function () {
+      successPopup.remove();
+    });
+  };
+
+  var getErrorTemplate = function () {
+    return document.getElementById('error').content.querySelector('.error');
+  };
+
+  var errorTemplate = getErrorTemplate();
+
+  var errorHandler = function () {
+    var errorPopup = errorTemplate.cloneNode(true);
+    mainContainer.append(errorPopup);
+
+    document.addEventListener('keydown', function (evt) {
+      util.isEscEvent(evt, function () {
+        errorPopup.remove();
+      });
+    });
+
+    document.addEventListener('click', function () {
+      errorPopup.remove();
+    });
+
+    var errorButton = errorPopup.querySelector('.error__button');
+    errorButton.addEventListener('click', function () {
+      errorPopup.remove();
+    });
+  };
+
   addForm.addEventListener('submit', function (evt) {
     validateCapacity();
     validateTime();
@@ -158,6 +211,9 @@
     if (!inputCapacity.checkValidity()) {
       evt.preventDefault();
     }
+
+    window.bookingApp.backend.save(new FormData(addForm), successHandler, errorHandler);
+    evt.preventDefault();
   });
 
   window.bookingApp.form = {

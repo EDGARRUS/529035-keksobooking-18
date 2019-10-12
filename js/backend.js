@@ -30,6 +30,33 @@
       xhr.send();
 
     },
+
+    save: function (data, onLoad, onError) {
+      var urlPost = 'https://js.dump.academy/keksobooking';
+      var xhr = new XMLHttpRequest();
+      xhr.responseType = 'json';
+
+      xhr.addEventListener('load', function () {
+        if (xhr.status !== 200) {
+          onError();
+        } else {
+          onLoad();
+        }
+      });
+
+      xhr.addEventListener('error', function () {
+        onError();
+      });
+
+      xhr.addEventListener('timeout', function () {
+        onError();
+      });
+
+      xhr.timeout = 5000;
+
+      xhr.open('POST', urlPost);
+      xhr.send(data);
+    },
   };
 
 

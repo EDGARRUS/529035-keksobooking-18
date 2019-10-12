@@ -31,6 +31,8 @@ window.bookingApp = {};
       return arr[rand];
     },
 
+    inactiveState: true,
+
     flat: {
       name: 'flat',
       minPrice: 1000,
