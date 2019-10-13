@@ -2,6 +2,7 @@
 
 (function () {
 
+
   window.bookingApp.backend = {
     load: function (onLoad, onError) {
       var urlGet = 'https://js.dump.academy/keksobooking/data';

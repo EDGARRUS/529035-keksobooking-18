@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+
   var getPinList = function () {
     return document.querySelector('.map');
   };
@@ -62,10 +63,17 @@
     pinsList: pinsList,
 
     addPins: function (pinsArray) {
+      var numberOfPins = 5;
+
       var pinFragment = document.createDocumentFragment();
-      for (var i = 0; i < pinsArray.length; i++) {
+      if (pinsArray.length < numberOfPins) {
+        numberOfPins = pinsArray.length;
+      }
+
+      for (var i = 0; i < numberOfPins; i++) {
         pinFragment.appendChild(renderPin(pinsArray[i]));
       }
+
       pinsList.appendChild(pinFragment);
     },
   };

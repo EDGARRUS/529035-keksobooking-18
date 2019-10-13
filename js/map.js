@@ -75,13 +75,20 @@
     inputAddress.value = getCenterPinAtStart();
   };
 
+  var pins = [];
+
+  var successHandler = function (pinsArray, counter) {
+    pins = pinsArray;
+    window.bookingApp.pin.addPins(pins, counter);
+  };
+
   var removeInactiveState = function () {
     window.bookingApp.pin.pinsList.classList.remove('map--faded');
     window.bookingApp.form.mapFiltersForm.classList.remove('ad-form--disabled');
     window.bookingApp.form.addForm.classList.remove('ad-form--disabled');
     disableAllFieldsets(window.bookingApp.form.allFieldsets, false);
     inputAddress.value = getEndCoordinatePin();
-    window.bookingApp.backend.load(window.bookingApp.pin.addPins, window.bookingApp.util.errorHandler);
+    window.bookingApp.backend.load(successHandler, window.bookingApp.util.errorHandler);
   };
 
   var onMainPinMouseDownAtStart = function () {
@@ -115,5 +122,42 @@
       window.bookingApp.util.inactiveState = true;
     },
   };
+
+  var filterForm = {
+    housingType: document.getElementById('housing-type'),
+    housingPrice: document.getElementById('housing-price'),
+    housingRooms: document.getElementById('housing-rooms'),
+    housingGuests: document.getElementById('housing-guests'),
+    filterWifi: document.getElementById('filter-wifi'),
+    filterDishwasher: document.getElementById('filter-dishwasher'),
+    filterParking: document.getElementById('filter-parking'),
+    filterWasher: document.getElementById('filter-washer'),
+    filterElevator: document.getElementById('filter-elevator'),
+    filterConditioner: document.getElementById('filter-conditioner'),
+  };
+
+  filterForm.housingType.addEventListener('change', function () {
+    var filterValue = filterForm.housingType.value;
+
+    var allPins = document.querySelectorAll('.map__pin');
+    allPins.forEach(function (pin) {
+      if (!pin.classList.contains('map__pin--main')) {
+        pin.remove();
+      }
+    });
+
+    if (filterForm.housingType.value === 'any') {
+      window.bookingApp.pin.addPins(pins);
+    } else {
+      var filterPins = pins.filter(function (pin) {
+        if (pin.offer.type === filterValue) {
+          return true;
+        }
+      });
+
+      window.bookingApp.pin.addPins(filterPins);
+    }
+
+  });
 
 })();
