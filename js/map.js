@@ -150,9 +150,7 @@
       window.bookingApp.pin.addPins(pins);
     } else {
       var filterPins = pins.filter(function (pin) {
-        if (pin.offer.type === filterValue) {
-          return true;
-        }
+        return pin.offer.type === filterValue;
       });
 
       window.bookingApp.pin.addPins(filterPins);
