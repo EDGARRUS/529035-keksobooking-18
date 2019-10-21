@@ -94,7 +94,7 @@ window.bookingApp = {};
         var elementStyleLeft = element.offsetLeft - shift.x;
         if (elementStyleLeft <= -37) {
           elementStyleLeft = -37;
-        } else if(elementStyleLeft >= 1163) {
+        } else if (elementStyleLeft >= 1163) {
           elementStyleLeft = 1163;
         }
 
