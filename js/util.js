@@ -8,6 +8,7 @@ window.bookingApp = {};
   var ESC_KEYCODE = 27;
   var PIN_HEIGHT = 74;
   var PIN_MARKER_HEIGHT = 22;
+  var DEBOUNCE_INTERVAL = 500;
 
   window.bookingApp.util = {
     ENTER_KEYCODE: ENTER_KEYCODE,
@@ -59,10 +60,6 @@ window.bookingApp = {};
 
     mouseDraggingElement: function (evt, handler, element) {
 
-      var mapCity = document.querySelector('.map__pins');
-      var mapCityWidth = mapCity.getBoundingClientRect().width;
-      var mapCityHeight = mapCity.getBoundingClientRect().height;
-
       evt.preventDefault();
 
       var startCoords = {
@@ -84,17 +81,17 @@ window.bookingApp = {};
         };
 
         var elementStyleTop = element.offsetTop - shift.y;
-        if (elementStyleTop <= 0) {
-          elementStyleTop = 0;
-        } else if (elementStyleTop >= (mapCityHeight - PIN_HEIGHT)) {
-          elementStyleTop = mapCityHeight - PIN_HEIGHT;
+        if (elementStyleTop <= 71) {
+          elementStyleTop = 71;
+        } else if (elementStyleTop >= 571) {
+          elementStyleTop = 571;
         }
 
         var elementStyleLeft = element.offsetLeft - shift.x;
-        if (elementStyleLeft <= 0) {
-          elementStyleLeft = 0;
-        } else if (elementStyleLeft >= (mapCityWidth - PIN_HEIGHT)) {
-          elementStyleLeft = mapCityWidth - PIN_HEIGHT;
+        if (elementStyleLeft <= -37) {
+          elementStyleLeft = -37;
+        } else if (elementStyleLeft >= 1163) {
+          elementStyleLeft = 1163;
         }
 
         element.style.top = (elementStyleTop) + 'px';
@@ -123,6 +120,20 @@ window.bookingApp = {};
 
       node.textContent = errorMessage;
       document.body.insertAdjacentElement('afterbegin', node);
+    },
+
+    debounce: function (cb) {
+      var lastTimeout = null;
+
+      return function () {
+        var parameters = arguments;
+        if (lastTimeout) {
+          window.clearTimeout(lastTimeout);
+        }
+        lastTimeout = window.setTimeout(function () {
+          cb.apply(null, parameters);
+        }, DEBOUNCE_INTERVAL);
+      };
     },
   };
 
