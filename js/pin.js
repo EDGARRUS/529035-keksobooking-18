@@ -17,24 +17,28 @@
   var pinTemplate = getPinTemplate();
 
   var renderPin = function (pinData) {
-    var pinElement = pinTemplate.cloneNode(true);
-    var pinImage = pinElement.querySelector('img');
-    pinImage.setAttribute('alt', pinData.offer.title);
-    pinImage.setAttribute('src', pinData.author.avatar);
-    pinElement.style.left = pinData.location.x + 'px';
-    pinElement.style.top = pinData.location.y + 'px';
+    if (pinData.offer) {
+      var pinElement = pinTemplate.cloneNode(true);
+      var pinImage = pinElement.querySelector('img');
+      pinImage.setAttribute('alt', pinData.offer.title);
+      pinImage.setAttribute('src', pinData.author.avatar);
+      pinElement.style.left = pinData.location.x + 'px';
+      pinElement.style.top = pinData.location.y + 'px';
 
-    pinElement.addEventListener('click', removeActiveStateOnPin);
+      pinElement.addEventListener('click', removeActiveStateOnPin);
 
-    pinElement.addEventListener('click', function () {
-      if (!pinElement.classList.contains('map__pin--active')) {
-        window.bookingApp.card.addCard(pinData);
-        pinElement.classList.add('map__pin--active');
-        document.addEventListener('keydown', window.bookingApp.pin.onPopupEscPress);
-      }
-    });
+      pinElement.addEventListener('click', function () {
+        if (!pinElement.classList.contains('map__pin--active')) {
+          window.bookingApp.card.addCard(pinData);
+          pinElement.classList.add('map__pin--active');
+          document.addEventListener('keydown', window.bookingApp.pin.onPopupEscPress);
+        }
+      });
 
-    return pinElement;
+      return pinElement;
+    } else {
+      return '';
+    }
   };
 
 

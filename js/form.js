@@ -203,6 +203,67 @@
     });
   };
 
+  var avatarLoad = function () {
+    var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+
+    var avatarInput = document.getElementById('avatar');
+
+    avatarInput.addEventListener('change', function () {
+      var avatarPreview = document.querySelector('.ad-form-header__preview img');
+      var file = avatarInput.files[0];
+      var fileName = file.name.toLowerCase();
+
+      var matches = FILE_TYPES.some(function (fileType) {
+        return fileName.endsWith(fileType);
+      });
+
+      if (matches) {
+        var reader = new FileReader();
+
+        reader.addEventListener('load', function () {
+          avatarPreview.src = reader.result;
+        });
+
+        reader.readAsDataURL(file);
+      }
+    });
+  };
+
+  var photoHouseLoad = function () {
+    var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+
+    var photoInput = document.getElementById('images');
+
+    photoInput.addEventListener('change', function () {
+      var photoHousePreview = document.querySelector('.ad-form__photo');
+      var file = photoInput.files[0];
+      var fileName = file.name.toLowerCase();
+
+      var matches = FILE_TYPES.some(function (fileType) {
+        return fileName.endsWith(fileType);
+      });
+
+      if (matches) {
+        var reader = new FileReader();
+
+        reader.addEventListener('load', function () {
+          photoHousePreview.style.backgroundImage = 'url(' + reader.result + ')';
+          photoHousePreview.style.backgroundSize = 'cover';
+        });
+
+        reader.readAsDataURL(file);
+      }
+    });
+  };
+
+  avatarLoad();
+  photoHouseLoad();
+
+  addForm.addEventListener('reset', function () {
+    addForm.reset();
+    window.bookingApp.map.returnToInactiveStateOnPage();
+  });
+
   addForm.addEventListener('submit', function (evt) {
     validateCapacity();
     validateTime();
