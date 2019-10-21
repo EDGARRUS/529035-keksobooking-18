@@ -60,10 +60,6 @@ window.bookingApp = {};
 
     mouseDraggingElement: function (evt, handler, element) {
 
-      var mapCity = document.querySelector('.map__pins');
-      var mapCityWidth = mapCity.getBoundingClientRect().width;
-      var mapCityHeight = mapCity.getBoundingClientRect().height;
-
       evt.preventDefault();
 
       var startCoords = {
@@ -127,11 +123,9 @@ window.bookingApp = {};
     },
 
     debounce: function (cb) {
-      console.log('Пошел дибаунс');
       var lastTimeout = null;
 
       return function () {
-        console.log('Пошла функция внутри дибаунса');
         var parameters = arguments;
         if (lastTimeout) {
           window.clearTimeout(lastTimeout);

@@ -169,7 +169,6 @@
   };
 
   var onChangeFilter = function () {
-    console.log('Пошла проверка');
     var filterPins = pins.filter(function (pinElem) {
 
       var allPins = document.querySelectorAll('.map__pin');
