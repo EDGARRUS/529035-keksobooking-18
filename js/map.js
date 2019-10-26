@@ -61,6 +61,7 @@
   var mainPinReturnToInactiveState = function () {
     mainPin.addEventListener('mousedown', onMainPinMouseDownAtStart);
     mainPin.addEventListener('keydown', onMainPinKeyDownAtStart);
+
     var allPins = document.querySelectorAll('.map__pin');
     allPins.forEach(function (pin) {
       if (!pin.classList.contains('map__pin--main')) {
