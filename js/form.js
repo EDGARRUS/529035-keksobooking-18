@@ -61,6 +61,7 @@
     }
   };
 
+  validateCapacity();
   inputCapacity.addEventListener('change', validateCapacity);
   inputRoomNumber.addEventListener('change', validateCapacity);
 
@@ -164,6 +165,8 @@
     mainContainer.append(successPopup);
 
     addForm.reset();
+    removeAvatar();
+    removePhotoHouse();
     window.bookingApp.map.returnToInactiveStateOnPage();
 
     document.addEventListener('keydown', function (evt) {
@@ -256,11 +259,23 @@
     });
   };
 
+  var removeAvatar = function () {
+    var avatarPreview = document.querySelector('.ad-form-header__preview img');
+    avatarPreview.src = 'img/muffin-grey.svg';
+  };
+
+  var removePhotoHouse = function () {
+    var photoHousePreview = document.querySelector('.ad-form__photo');
+    photoHousePreview.style.backgroundImage = 'none';
+  };
+
   avatarLoad();
   photoHouseLoad();
 
   addForm.addEventListener('reset', function () {
     addForm.reset();
+    removeAvatar();
+    removePhotoHouse();
     window.bookingApp.map.returnToInactiveStateOnPage();
   });
 
@@ -271,10 +286,10 @@
     validatePrice();
     if (!inputCapacity.checkValidity()) {
       evt.preventDefault();
+    } else {
+      window.bookingApp.backend.save(new FormData(addForm), successHandler, errorHandler);
+      evt.preventDefault();
     }
-
-    window.bookingApp.backend.save(new FormData(addForm), successHandler, errorHandler);
-    evt.preventDefault();
   });
 
   window.bookingApp.form = {
