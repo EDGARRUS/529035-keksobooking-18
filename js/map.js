@@ -75,6 +75,7 @@
     if (activeCard) {
       activeCard.remove();
     }
+
     inputAddress.value = getCenterPinAtStart();
   };
 

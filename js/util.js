@@ -1,8 +1,8 @@
 'use strict';
 
-window.bookingApp = {};
-
 (function () {
+
+  window.bookingApp = {};
 
   var ENTER_KEYCODE = 13;
   var ESC_KEYCODE = 27;
@@ -25,11 +25,6 @@ window.bookingApp = {};
       if (evt.keyCode === window.bookingApp.util.ENTER_KEYCODE) {
         action();
       }
-    },
-
-    arrayRandElement: function (arr) {
-      var rand = Math.floor(Math.random() * arr.length);
-      return arr[rand];
     },
 
     inactiveState: true,

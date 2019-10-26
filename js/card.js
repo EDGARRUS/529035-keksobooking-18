@@ -2,6 +2,21 @@
 
 (function () {
 
+  var getHousesType = function (houseType) {
+    switch (houseType) {
+      case 'flat':
+        return 'Квартира';
+      case 'bungalo':
+        return 'Бунгало';
+      case 'house':
+        return 'Дом';
+      case 'palace':
+        return 'Дворец';
+      default:
+        return 'Неизвестное жилье';
+    }
+  };
+
   var getCardTemplate = function () {
     return document.getElementById('card')
       .content
@@ -36,7 +51,7 @@
 
     var cardType = cardElement.querySelector('.popup__type');
     if (cardInfo.offer.type) {
-      cardType.textContent = window.bookingApp.data.getHousesType(cardInfo.offer.type);
+      cardType.textContent = getHousesType(cardInfo.offer.type);
     } else {
       cardType.classList.add('visually-hidden');
     }

@@ -2,6 +2,8 @@
 
 (function () {
 
+  var RESPONSE_SUCCESS = 200;
+  var RESPONSE_TIMEOUT = 5000;
 
   window.bookingApp.backend = {
     load: function (onLoad, onError) {
@@ -10,7 +12,7 @@
       xhr.responseType = 'json';
 
       xhr.addEventListener('load', function () {
-        if (xhr.status !== 200) {
+        if (xhr.status !== RESPONSE_SUCCESS) {
           onError('Статус ответа:' + xhr.status + ' ' + xhr.statusText);
         } else {
           onLoad(xhr.response);
@@ -25,7 +27,7 @@
         onError('Запрос не успел выполниться за' + xhr.timeout + ' мс');
       });
 
-      xhr.timeout = 5000;
+      xhr.timeout = RESPONSE_TIMEOUT;
 
       xhr.open('GET', urlGet);
       xhr.send();
@@ -38,7 +40,7 @@
       xhr.responseType = 'json';
 
       xhr.addEventListener('load', function () {
-        if (xhr.status !== 200) {
+        if (xhr.status !== RESPONSE_SUCCESS) {
           onError();
         } else {
           onLoad();
@@ -53,7 +55,7 @@
         onError();
       });
 
-      xhr.timeout = 5000;
+      xhr.timeout = RESPONSE_TIMEOUT;
 
       xhr.open('POST', urlPost);
       xhr.send(data);

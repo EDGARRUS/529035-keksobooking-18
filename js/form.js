@@ -272,8 +272,23 @@
   avatarLoad();
   photoHouseLoad();
 
-  addForm.addEventListener('reset', function () {
-    addForm.reset();
+  addForm.addEventListener('reset', function (evt) {
+    evt.preventDefault();
+
+    document.getElementById('title').value = '';
+    document.getElementById('description').value = '';
+    inputRoomNumber.value = '1';
+    inputCapacity.value = '3';
+    timein.value = '12:00';
+    timeout.value = '12:00';
+    typeHome.value = 'flat';
+    price.value = '';
+
+    var allCheckbox = document.querySelectorAll('[type = checkbox]');
+    for (var i = 0; i < allCheckbox.length; i++) {
+      allCheckbox[i].checked = false;
+    }
+
     removeAvatar();
     removePhotoHouse();
     window.bookingApp.map.returnToInactiveStateOnPage();
